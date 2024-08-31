@@ -15,4 +15,11 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: ``, // 这里可以导入全局scss文件
+      },
+    },
+  },
 });

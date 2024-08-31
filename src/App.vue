@@ -14,9 +14,13 @@ import { ElButton } from "element-plus";
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  <div class="div1">
+    1111
+    <div class="div2">2222</div>
+  </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -28,5 +32,11 @@ import { ElButton } from "element-plus";
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+.div1 {
+  background-color: red;
+  .div2 {
+    background-color: blue;
+  }
 }
 </style>
