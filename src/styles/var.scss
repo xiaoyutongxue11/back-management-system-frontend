@@ -26,3 +26,25 @@ $primary-purple: #bd78fe;
   }
   animation: #{$animation-name} $duration linear $iteration-count;
 }
+
+$color-animation: color-gradient 10s linear infinite;
+@keyframes color-gradient {
+  0%,
+  100% {
+    color: $primary-light-purple;
+  }
+  50% {
+    color: $primary-light-blue;
+  }
+}
+
+$bg-color-animation: bg-color-gradient 10s linear infinite;
+@keyframes bg-color-gradient {
+  0%,
+  100% {
+    background-color: $primary-light-purple;
+  }
+  50% {
+    background-color: $primary-light-blue;
+  }
+}
