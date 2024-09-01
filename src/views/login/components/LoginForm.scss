@@ -1,0 +1,26 @@
+.blue-text {
+  color: $primary-color;
+  font-size: 12px;
+}
+
+:deep(.button) {
+  width: 100%;
+  background: linear-gradient(to right, $primary-purple, $primary-blue);
+  border: none;
+}
+:deep(.button:hover) {
+  opacity: 0.8;
+}
+
+.footer-tip {
+  text-align: center;
+  font-size: 12px;
+}
+
+.login-form {
+  max-width: 600px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
