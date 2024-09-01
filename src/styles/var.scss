@@ -1,0 +1,28 @@
+/* global css variable */
+$primary-color: var(--el-color-primary);
+$primary-light-blue: #8ec5fc;
+$primary-light-purple: #e0c3fc;
+$primary-blue: #3092f3;
+$primary-purple: #bd78fe;
+
+@mixin color-change-animation(
+  // 同一个scss文件中的动画名称不能相同
+  $animation-name,
+  $start-color,
+  $end-color,
+  $duration: 10s,
+  $iteration-count: infinite,
+  // 类型必须为css属性
+  $type
+) {
+  @keyframes #{$animation-name} {
+    0%,
+    100% {
+      #{$type}: $start-color;
+    }
+    50% {
+      #{$type}: $end-color;
+    }
+  }
+  animation: #{$animation-name} $duration linear $iteration-count;
+}
