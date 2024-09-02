@@ -2,6 +2,9 @@
   color: $primary-color;
   font-size: 12px;
 }
+.blue-text:hover {
+  text-decoration: underline;
+}
 
 :deep(.button) {
   width: 100%;
