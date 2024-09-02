@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const instance = axios.create({
-  baseURL: "http://localhost:8080",
+const http = axios.create({
+  baseURL: "http://localhost:3000",
   timeout: 1000,
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
 });
 
 // 添加请求拦截器
-instance.interceptors.request.use(
+http.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
     return config;
@@ -19,7 +19,7 @@ instance.interceptors.request.use(
 );
 
 // 添加响应拦截器
-instance.interceptors.response.use(
+http.interceptors.response.use(
   function (response) {
     // 对响应数据做点什么
     return response;
@@ -30,4 +30,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default http;

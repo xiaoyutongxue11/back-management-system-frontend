@@ -16,7 +16,9 @@
       />
     </el-form-item>
     <div class="blue-text forget" @click="onForgetPassword">忘记密码</div>
-    <el-button class="button" type="primary">登录</el-button>
+    <el-button class="button" type="primary" @click="handleLogin"
+      >登录</el-button
+    >
     <div class="footer-tip">
       没有账号？<span class="blue-text" @click="toRegister">点击注册</span>
     </div>
@@ -26,7 +28,11 @@
 import { reactive } from "vue";
 import { Login } from "@/http/interface/login";
 import type { FormRules } from "element-plus";
+import { ElMessage } from "element-plus";
+import { loginAPI } from "@/http/login";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const emit = defineEmits<{
   (event: "tabChange", paneName: string): void;
   (event: "onForget", val: boolean): void;
@@ -47,6 +53,16 @@ const toRegister = () => {
 
 const onForgetPassword = () => {
   emit("onForget", true);
+};
+
+const handleLogin = async () => {
+  const { data } = await loginAPI(loginData);
+  if (data.status === 0) {
+    ElMessage({ type: "success", message: data.message });
+    router.replace("/layout");
+  } else {
+    ElMessage({ type: "error", message: data.message });
+  }
 };
 </script>
 <style scoped lang="scss">
