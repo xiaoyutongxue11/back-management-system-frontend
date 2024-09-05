@@ -4,6 +4,7 @@
     label-width="auto"
     class="login-form"
     :rules="rules"
+    ref="formRef"
   >
     <el-form-item label="账号" prop="account">
       <el-input v-model="loginData.account" placeholder="请输入账号" />
@@ -16,7 +17,7 @@
       />
     </el-form-item>
     <div class="blue-text forget" @click="onForgetPassword">忘记密码</div>
-    <el-button class="button" type="primary" @click="handleLogin"
+    <el-button class="button" type="primary" @click="handleLogin(formRef)"
       >登录</el-button
     >
     <div class="footer-tip">
@@ -25,13 +26,14 @@
   </el-form>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { Login } from "@/http/interface/login";
-import type { FormRules } from "element-plus";
+import type { FormRules, FormInstance } from "element-plus";
 import { ElMessage } from "element-plus";
 import { loginAPI } from "@/http/login";
 import { useRouter } from "vue-router";
 
+const formRef = ref<FormInstance>();
 const router = useRouter();
 const emit = defineEmits<{
   (event: "tabChange", paneName: string): void;
@@ -55,14 +57,19 @@ const onForgetPassword = () => {
   emit("onForget", true);
 };
 
-const handleLogin = async () => {
-  const { data } = await loginAPI(loginData);
-  if (data.status === 0) {
-    ElMessage({ type: "success", message: data.message });
-    router.replace("/layout");
-  } else {
-    ElMessage({ type: "error", message: data.message });
-  }
+const handleLogin = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      const { data } = await loginAPI(loginData);
+      if (data.status === 0) {
+        ElMessage({ type: "success", message: data.message });
+        router.replace("/layout");
+      } else ElMessage({ type: "error", message: data.message });
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
 };
 </script>
 <style scoped lang="scss">

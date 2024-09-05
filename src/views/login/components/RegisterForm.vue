@@ -4,6 +4,7 @@
     :rules="rules"
     label-width="auto"
     class="login-form"
+    ref="formRef"
   >
     <el-form-item label="账号" prop="account">
       <el-input v-model="registerData.account" placeholder="请输入账号" />
@@ -22,17 +23,22 @@
         placeholder="请再次输入密码"
       />
     </el-form-item>
-    <el-button class="button" type="primary">注册</el-button>
+    <el-button class="button" type="primary" @click="handleRegister(formRef)"
+      >注册</el-button
+    >
     <div class="footer-tip">
       已有账号？<span class="blue-text" @click="toLogin">点击登录</span>
     </div>
   </el-form>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { Login } from "@/http/interface/login";
-import type { FormRules } from "element-plus";
+import { ElMessage } from "element-plus";
+import type { FormInstance, FormRules } from "element-plus";
+import { registerAPI } from "@/http/login";
 
+const formRef = ref<FormInstance>();
 const registerData: Login.RegisterParams = reactive({
   account: "",
   password: "",
@@ -67,6 +73,28 @@ const emit = defineEmits<{
 }>();
 const toLogin = () => {
   emit("tabChange", "login");
+};
+
+const handleRegister = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  if (registerData.password !== registerData.rePassword)
+    return ElMessage({ type: "error", message: "两次密码不一致" });
+
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      const { account, password } = registerData;
+      const { data } = await registerAPI({
+        account,
+        password,
+      });
+      if (data.status === 0) {
+        ElMessage({ type: "success", message: data.message });
+        toLogin();
+      } else ElMessage({ type: "error", message: data.message });
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
 };
 </script>
 <style scoped lang="scss">

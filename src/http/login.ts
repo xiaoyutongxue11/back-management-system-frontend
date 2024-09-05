@@ -8,3 +8,11 @@ export const loginAPI = (data: Login.LoginParams) => {
     data,
   });
 };
+
+export const registerAPI = (data: Login.LoginParams) => {
+  return http({
+    url: "/api/register",
+    method: "post",
+    data,
+  });
+};
