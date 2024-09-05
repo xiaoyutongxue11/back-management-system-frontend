@@ -64,6 +64,9 @@ const handleLogin = async (formEl: FormInstance | undefined) => {
       const { data } = await loginAPI(loginData);
       if (data.status === 0) {
         ElMessage({ type: "success", message: data.message });
+        const { token, ...user } = data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
         router.replace("/layout");
       } else ElMessage({ type: "error", message: data.message });
     } else {
